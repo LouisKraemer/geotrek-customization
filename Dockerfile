@@ -16,7 +16,7 @@ RUN yarn
 FROM dependencies AS customizedBuild
 RUN yarn build
 
-# ---- Prod Dependencies ----
+#---- Prod Dependencies ----
 FROM customizedPrebuild AS prodDependencies
 RUN yarn --production
 
@@ -26,5 +26,8 @@ COPY --from=prodDependencies /app/package.json ./
 COPY --from=prodDependencies /app/yarn.lock ./
 COPY --from=prodDependencies /app/node_modules ./node_modules
 COPY --from=customizedBuild /app/src ./src
+COPY --from=customizedBuild /app/next.config.js ./
+COPY --from=customizedBuild /app/cache.js ./
+COPY --from=customizedBuild /app/config ./config
 EXPOSE 80
 CMD ["yarn", "start"]
