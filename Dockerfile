@@ -1,9 +1,11 @@
+ARG VERSION=latest
+
 # ---- Base Node ----
 FROM node:12-alpine3.12 AS base
 WORKDIR /app
 
 # ---- Get App and customize ----
-FROM ghcr.io/geotrekce/geotrek-rando-v3/geotrek-rando-prebuild:latest AS customizedPrebuild
+FROM ghcr.io/geotrekce/geotrek-rando-v3/geotrek-rando-prebuild:${VERSION} AS customizedPrebuild
 COPY customization/. /app/customization/
 
 # ---- Dependencies ----
